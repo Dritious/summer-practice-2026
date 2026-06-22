@@ -2,16 +2,11 @@
 
 public static class StringExtensions
 {
-    static bool IsPalindrome(this string s)
+    static bool IsPalindrome(this string input)
     {
-        int l = 0; int r = s.Length - 1;
-        if (r < 0) { return false; }
-        while (l < r)
-        {
-            if (s[l] != s[r]) { return false; }
-            do { l++; } while (Char.IsPunctuation(s[l]) || Char.IsWhiteSpace(s[l]));
-            do { r--; } while (Char.IsPunctuation(s[r]) || Char.IsWhiteSpace(s[r]));
-        }
-        return true;
+        input = input.ToLower();
+        string cleanInput = new string(input.Where(c => !char.IsWhiteSpace(c) && !char.IsPunctuation(c)).ToArray());
+        if (cleanInput.Length > 0 && cleanInput == cleanInput.Reverse()) { return true; }
+        else { return false; }
     }
 }
