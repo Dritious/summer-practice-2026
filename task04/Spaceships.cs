@@ -64,11 +64,11 @@ public abstract class SimpleSpaceship : ISpaceship
 public class Cruiser : SimpleSpaceship
 {
     public override int Speed => 50;
-    public override int FirePower => 5;
+    public override int FirePower => 100;
 }
 
 public class Fighter : SimpleSpaceship
 {
     public override int Speed => 100;
-    public override int FirePower => 20;
+    public override int FirePower => 50;
 }
