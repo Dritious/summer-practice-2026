@@ -23,9 +23,13 @@ public class ClassAnalyzer
         var method = _type.GetMethods()
                          .First(m => m.IsPublic && m.Name == methodName);
 
-        return method.GetParameters()
-                    .Select(p => p.Name)
-                    .Append(method.ReturnType.Name);
+        var parameters = method.GetParameters()
+                              .Select(p => p.Name);
+
+        if (method.ReturnType != typeof(void))
+            parameters = parameters.Append(method.ReturnType.Name);
+
+        return parameters;
     }
 
     public IEnumerable<string> GetAllFields()
