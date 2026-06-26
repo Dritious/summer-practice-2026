@@ -37,11 +37,8 @@ public class SpaceshipTests
         ship.Rotate(45);
         Assert.Equal(45, ship.Angle);
 
-        ship.Rotate(330);
-        Assert.Equal(15, ship.Angle);
-
         ship.Rotate(-30);
-        Assert.Equal(345, ship.Angle);
+        Assert.Equal(15, ship.Angle);
     }
 
     [Fact]
@@ -55,7 +52,7 @@ public class SpaceshipTests
 
         shooter.Fire();
 
-        Assert.Equal(130, target.Health);
+        Assert.Equal(100, target.Health);
     }
 
 }

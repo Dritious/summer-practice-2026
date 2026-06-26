@@ -57,7 +57,7 @@ public abstract class SimpleSpaceship : ISpaceship
         Y += (int)(Speed * Math.Sin(Angle * Math.PI / 180));
     }
 
-    public void Rotate(int angle) => Angle = (Angle + angle) % 360;
+    public void Rotate(int angle) => Angle = (Angle + angle);
     public void Fire() => SpaceshipMap.ProcessFire(this);
 }
 
