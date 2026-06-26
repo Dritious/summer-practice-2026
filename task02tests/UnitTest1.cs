@@ -1,4 +1,5 @@
 namespace task02tests;
+
 using task02;
 
 public class StudentServiceTests
