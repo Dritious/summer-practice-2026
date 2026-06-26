@@ -22,9 +22,9 @@ public class CustomCollection<T> : IEnumerable<T>
     // Шаг 6
     public static IEnumerable<int> GenerateSequence(int start, int count)
     {
-        for (int i = start; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
-            yield return i;
+            yield return start + i;
         }
     }
 
