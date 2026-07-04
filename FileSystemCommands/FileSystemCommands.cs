@@ -1,14 +1,17 @@
+using System.ComponentModel.Design;
+
 namespace FileSystemCommands;
 
 using CommandLib;
+using System.Windows.Input;
 
-public class DirectorySizeCommand: ICommand
+public class DirectorySizeCommand : ICommand
 {
     private readonly string _directoryPath;
 
     public DirectorySizeCommand(string directoryPath)
-    { 
-        _directoryPath = directoryPath; 
+    {
+        _directoryPath = directoryPath;
     }
     public void Execute()
     {
@@ -36,7 +39,7 @@ public class DirectorySizeCommand: ICommand
     }
 }
 
-public class FindFilesCommand: ICommand
+public class FindFilesCommand : ICommand
 {
     private readonly string _directoryPath;
     private readonly string _pattern;
