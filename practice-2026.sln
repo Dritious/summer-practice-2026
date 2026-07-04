@@ -3,6 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+<<<<<<< HEAD
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "task07", "task07\task07.csproj", "{CD21010F-1F14-465C-8DBE-A77BE5A1866E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "task07tests", "task07tests\task07tests.csproj", "{29D76927-B7C2-466C-9EE9-C4B922EA9620}"
@@ -10,6 +11,17 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystemCommands", "FileSystemCommands\FileSystemCommands.csproj", "{17332778-674C-4E02-8D1A-9282AC893E03}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLib", "CommandLib\CommandLib.csproj", "{63E166E5-6EDF-4A14-A56B-CDA135FEF2EB}"
+=======
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "task08tests", "task08tests\task08tests.csproj", "{DAF16B4C-EE41-4351-8200-A2C286167145}"
+>>>>>>> 7aaf2e6 (fix: remove regex logic from FileSystemObject and add standart wildcard)
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommandLib", "CommandLib", "{887BB940-9B5E-E4E0-4A95-34065CA0BC87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "task08", "CommandLib\task08.csproj", "{7EF59FB8-8BD8-4CC8-9584-C991D8637768}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandRunner", "CommandRunner\CommandRunner.csproj", "{9751D8E6-F364-4B68-AD34-C30CF75344C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystemCommands", "FileSystemCommands\FileSystemCommands.csproj", "{7D156174-2B7F-474B-8516-68F734E85FCB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +33,7 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+<<<<<<< HEAD
 		{CD21010F-1F14-465C-8DBE-A77BE5A1866E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CD21010F-1F14-465C-8DBE-A77BE5A1866E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD21010F-1F14-465C-8DBE-A77BE5A1866E}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -69,8 +82,66 @@ Global
 		{63E166E5-6EDF-4A14-A56B-CDA135FEF2EB}.Release|x64.Build.0 = Release|Any CPU
 		{63E166E5-6EDF-4A14-A56B-CDA135FEF2EB}.Release|x86.ActiveCfg = Release|Any CPU
 		{63E166E5-6EDF-4A14-A56B-CDA135FEF2EB}.Release|x86.Build.0 = Release|Any CPU
+=======
+		{DAF16B4C-EE41-4351-8200-A2C286167145}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAF16B4C-EE41-4351-8200-A2C286167145}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAF16B4C-EE41-4351-8200-A2C286167145}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DAF16B4C-EE41-4351-8200-A2C286167145}.Debug|x64.Build.0 = Debug|Any CPU
+		{DAF16B4C-EE41-4351-8200-A2C286167145}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DAF16B4C-EE41-4351-8200-A2C286167145}.Debug|x86.Build.0 = Debug|Any CPU
+		{DAF16B4C-EE41-4351-8200-A2C286167145}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAF16B4C-EE41-4351-8200-A2C286167145}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAF16B4C-EE41-4351-8200-A2C286167145}.Release|x64.ActiveCfg = Release|Any CPU
+		{DAF16B4C-EE41-4351-8200-A2C286167145}.Release|x64.Build.0 = Release|Any CPU
+		{DAF16B4C-EE41-4351-8200-A2C286167145}.Release|x86.ActiveCfg = Release|Any CPU
+		{DAF16B4C-EE41-4351-8200-A2C286167145}.Release|x86.Build.0 = Release|Any CPU
+		{7EF59FB8-8BD8-4CC8-9584-C991D8637768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EF59FB8-8BD8-4CC8-9584-C991D8637768}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EF59FB8-8BD8-4CC8-9584-C991D8637768}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7EF59FB8-8BD8-4CC8-9584-C991D8637768}.Debug|x64.Build.0 = Debug|Any CPU
+		{7EF59FB8-8BD8-4CC8-9584-C991D8637768}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7EF59FB8-8BD8-4CC8-9584-C991D8637768}.Debug|x86.Build.0 = Debug|Any CPU
+		{7EF59FB8-8BD8-4CC8-9584-C991D8637768}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EF59FB8-8BD8-4CC8-9584-C991D8637768}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EF59FB8-8BD8-4CC8-9584-C991D8637768}.Release|x64.ActiveCfg = Release|Any CPU
+		{7EF59FB8-8BD8-4CC8-9584-C991D8637768}.Release|x64.Build.0 = Release|Any CPU
+		{7EF59FB8-8BD8-4CC8-9584-C991D8637768}.Release|x86.ActiveCfg = Release|Any CPU
+		{7EF59FB8-8BD8-4CC8-9584-C991D8637768}.Release|x86.Build.0 = Release|Any CPU
+		{9751D8E6-F364-4B68-AD34-C30CF75344C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9751D8E6-F364-4B68-AD34-C30CF75344C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9751D8E6-F364-4B68-AD34-C30CF75344C8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9751D8E6-F364-4B68-AD34-C30CF75344C8}.Debug|x64.Build.0 = Debug|Any CPU
+		{9751D8E6-F364-4B68-AD34-C30CF75344C8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9751D8E6-F364-4B68-AD34-C30CF75344C8}.Debug|x86.Build.0 = Debug|Any CPU
+		{9751D8E6-F364-4B68-AD34-C30CF75344C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9751D8E6-F364-4B68-AD34-C30CF75344C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9751D8E6-F364-4B68-AD34-C30CF75344C8}.Release|x64.ActiveCfg = Release|Any CPU
+		{9751D8E6-F364-4B68-AD34-C30CF75344C8}.Release|x64.Build.0 = Release|Any CPU
+		{9751D8E6-F364-4B68-AD34-C30CF75344C8}.Release|x86.ActiveCfg = Release|Any CPU
+		{9751D8E6-F364-4B68-AD34-C30CF75344C8}.Release|x86.Build.0 = Release|Any CPU
+		{7D156174-2B7F-474B-8516-68F734E85FCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D156174-2B7F-474B-8516-68F734E85FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D156174-2B7F-474B-8516-68F734E85FCB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7D156174-2B7F-474B-8516-68F734E85FCB}.Debug|x64.Build.0 = Debug|Any CPU
+		{7D156174-2B7F-474B-8516-68F734E85FCB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7D156174-2B7F-474B-8516-68F734E85FCB}.Debug|x86.Build.0 = Debug|Any CPU
+		{7D156174-2B7F-474B-8516-68F734E85FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D156174-2B7F-474B-8516-68F734E85FCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D156174-2B7F-474B-8516-68F734E85FCB}.Release|x64.ActiveCfg = Release|Any CPU
+		{7D156174-2B7F-474B-8516-68F734E85FCB}.Release|x64.Build.0 = Release|Any CPU
+		{7D156174-2B7F-474B-8516-68F734E85FCB}.Release|x86.ActiveCfg = Release|Any CPU
+		{7D156174-2B7F-474B-8516-68F734E85FCB}.Release|x86.Build.0 = Release|Any CPU
+>>>>>>> 7aaf2e6 (fix: remove regex logic from FileSystemObject and add standart wildcard)
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+<<<<<<< HEAD
+=======
+	GlobalSection(NestedProjects) = preSolution
+		{7EF59FB8-8BD8-4CC8-9584-C991D8637768} = {887BB940-9B5E-E4E0-4A95-34065CA0BC87}
+		{9751D8E6-F364-4B68-AD34-C30CF75344C8} = {887BB940-9B5E-E4E0-4A95-34065CA0BC87}
+		{7D156174-2B7F-474B-8516-68F734E85FCB} = {887BB940-9B5E-E4E0-4A95-34065CA0BC87}
+	EndGlobalSection
+>>>>>>> 7aaf2e6 (fix: remove regex logic from FileSystemObject and add standart wildcard)
 EndGlobal
