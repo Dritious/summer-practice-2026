@@ -1,5 +1,6 @@
-﻿using System.CodeDom;
-using Microsoft.CSharp;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using System.Reflection;
 
 public static class DynamicClassCompiler
 {
@@ -11,18 +12,27 @@ public class Calculator
     public int Mul(int a, int b) => a * b;
     public int Div(int a, int b) => a / b;
 }";
-
+ 
     public static dynamic CreateCalculator()
     {
-        using var provider = new CSharpCodeProvider();
-        var parameters = new CompilerParameters();
-        // подключение базовой библиотеки
-        parameters.ReferencedAssemblies.Add("System.dll");
+        var syntaxTree = CSharpSyntaxTree.ParseText(ClassDefinition);
+        var references = new[]
+        {
+            MetadataReference.CreateFromFile(typeof(object).Assembly.Location)
+        };
 
-        var results = provider.CompileAssemblyFromSource(parameters, ClassDefinition);
+        var compilation = CSharpCompilation.Create(
+            "MyAssembly",
+            new[] { syntaxTree },
+            references,
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+        );
 
-        var type = results.CompiledAssembly.GetType("Calculator");
+        var path = "calculator.dll";
+        var result = compilation.Emit(path);
+        var assembly = Assembly.LoadFrom(path);
+        var type = assembly.GetType("Calculator");
+
         return Activator.CreateInstance(type);
     }
 }
-
