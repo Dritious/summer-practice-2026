@@ -1,10 +1,10 @@
-using System.ComponentModel.Design;
-
 namespace FileSystemCommands;
 
 using CommandLib;
-using System.Windows.Input;
+using task07;
 
+[DisplayName("Команда подсчета размера директории")]
+[Version(1, 0)]
 public class DirectorySizeCommand : ICommand
 {
     private readonly string _directoryPath;
@@ -13,6 +13,8 @@ public class DirectorySizeCommand : ICommand
     {
         _directoryPath = directoryPath;
     }
+
+    [DisplayName("Выполнить подсчет размера")]
     public void Execute()
     {
         long dirSize = CalculateSize(_directoryPath);
@@ -39,6 +41,8 @@ public class DirectorySizeCommand : ICommand
     }
 }
 
+[DisplayName("Команда поиска файлов")]
+[Version(1, 1)]
 public class FindFilesCommand : ICommand
 {
     private readonly string _directoryPath;
@@ -50,6 +54,7 @@ public class FindFilesCommand : ICommand
         _pattern = pattern;
     }
 
+    [DisplayName("Выполнить поиск файлов")]
     public void Execute()
     {
         var files = Directory.GetFiles(_directoryPath, _pattern, SearchOption.AllDirectories);

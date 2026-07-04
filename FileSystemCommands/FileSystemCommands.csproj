@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommandLib\task08.csproj" />
+    <ProjectReference Include="..\task07\task07.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
