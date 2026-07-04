@@ -7,7 +7,7 @@ public class FileSystemCommandsTests
 
     [Fact]
     public void DirectorySizeCommand_ShouldCalculateSize()
-    { 
+    {
         var testDir = Path.Combine(Path.GetTempPath(), "TestDir");
         Directory.CreateDirectory(testDir);
         File.WriteAllText(Path.Combine(testDir, "test1.txt"), "Hello");
@@ -42,7 +42,7 @@ public class FileSystemCommandsTests
 
         var output = sw.ToString();
         Console.SetOut(Console.Out);
-        var lines = output.Split("\n", StringSplitOptions.RemoveEmptyEntries); 
+        var lines = output.Split("\n", StringSplitOptions.RemoveEmptyEntries);
         Assert.Single(lines);
         Assert.Contains("file1.txt", lines[0]);
 
