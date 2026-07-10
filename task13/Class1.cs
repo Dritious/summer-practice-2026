@@ -14,8 +14,8 @@ public class Student
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public DateTime BirthDate { get; set; }
     [JsonConverter(typeof(DateTimeJsonConverter))]
+    public DateTime BirthDate { get; set; }
     public List<Subject> Grades { get; set; }
 
     public Student()
