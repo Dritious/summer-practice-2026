@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Globalization;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace task13;
@@ -27,15 +28,16 @@ public class Student
 public class DateTimeJsonConverter : JsonConverter<DateTime>
 {
     private const string DateFormat = "dd MMMM yyyy";
+    private static readonly CultureInfo _culture = new CultureInfo("ru-RU");
 
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return DateTime.ParseExact(reader.GetString(), DateFormat, null);
+        return DateTime.ParseExact(reader.GetString(), DateFormat, _culture);
     }
 
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.ToString(DateFormat));
+        writer.WriteStringValue(value.ToString(DateFormat, _culture));
     }
 }
 
