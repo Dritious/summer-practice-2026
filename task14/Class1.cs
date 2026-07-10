@@ -4,7 +4,7 @@ using System.Threading;
 //
 // Вычисление определенного интеграла
 //
-class DefiniteIntegral
+public class DefiniteIntegral
 {
     //
     // a, b - границы отрезка, на котором происходит вычисление опредленного интеграла
