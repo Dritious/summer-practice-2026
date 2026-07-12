@@ -1023,7 +1023,10 @@
       "xunit.runner.visualstudio/2.4.5": {},
       "task01/1.0.0": {
         "runtime": {
-          "task01.dll": {}
+          "task01.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

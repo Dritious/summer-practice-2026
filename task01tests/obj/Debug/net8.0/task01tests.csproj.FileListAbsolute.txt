@@ -95,9 +95,9 @@ C:\Users\Sevolode\Desktop\Мои потуги в программировани�
 C:\Users\Sevolode\Desktop\Мои потуги в программирование\C#\summer-practice-2026\task01tests\obj\Debug\net8.0\task01tests.AssemblyInfo.cs
 C:\Users\Sevolode\Desktop\Мои потуги в программирование\C#\summer-practice-2026\task01tests\obj\Debug\net8.0\task01tests.csproj.CoreCompileInputs.cache
 C:\Users\Sevolode\Desktop\Мои потуги в программирование\C#\summer-practice-2026\task01tests\obj\Debug\net8.0\task01tests.sourcelink.json
-C:\Users\Sevolode\Desktop\Мои потуги в программирование\C#\summer-practice-2026\task01tests\obj\Debug\net8.0\task01tests.csproj.CopyComplete
 C:\Users\Sevolode\Desktop\Мои потуги в программирование\C#\summer-practice-2026\task01tests\obj\Debug\net8.0\task01tests.dll
 C:\Users\Sevolode\Desktop\Мои потуги в программирование\C#\summer-practice-2026\task01tests\obj\Debug\net8.0\refint\task01tests.dll
 C:\Users\Sevolode\Desktop\Мои потуги в программирование\C#\summer-practice-2026\task01tests\obj\Debug\net8.0\task01tests.pdb
 C:\Users\Sevolode\Desktop\Мои потуги в программирование\C#\summer-practice-2026\task01tests\obj\Debug\net8.0\task01tests.genruntimeconfig.cache
 C:\Users\Sevolode\Desktop\Мои потуги в программирование\C#\summer-practice-2026\task01tests\obj\Debug\net8.0\ref\task01tests.dll
+C:\Users\Sevolode\Desktop\Мои потуги в программирование\C#\summer-practice-2026\task01tests\obj\Debug\net8.0\task01te.79258E2D.Up2Date

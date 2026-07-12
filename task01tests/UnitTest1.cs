@@ -1,4 +1,5 @@
 namespace task01tests;
+
 using task01;
 
 public class StringExtensionsTests
