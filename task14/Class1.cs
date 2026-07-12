@@ -1,4 +1,7 @@
 ﻿namespace task14;
+
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 //
@@ -12,69 +15,89 @@ public class DefiniteIntegral
     // step - размер одного шага разбиения
     // threadsNumber - число потоков, которые используются для вычислений
     //
+
+    [DllImport("kernel32.dll")]
+    static extern IntPtr GetCurrentThread();
+
+    [DllImport("kernel32.dll")]
+    static extern IntPtr SetThreadAffinityMask(IntPtr hThread, IntPtr dwThreadAffinityMask);
+    private static readonly Func<double, double> _defaultFunc = x => x;
+
+    [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
     public static double Solve(double a, double b, Func<double, double> function, double step, int threadsnumber)
     {
-        if (threadsnumber <= 0)
-            throw new ArgumentException("Число потоков должно быть положительно");
+        if (threadsnumber <= 0 || step <= 0 || a >= b)
+            throw new ArgumentException();
 
-        if (step <= 0)
-            throw new ArgumentException("Шаг должен быть положителен");
-
-        if (a >= b)
-            throw new ArgumentException("Левая граница должна быть больше правой");
+        if (threadsnumber == 1)
+            return ComputeSegment(a, b, function ?? _defaultFunc, step);
 
         double totalSum = 0.0;
+        int processorCount = Environment.ProcessorCount;
+        double segmentLength = (b - a) / threadsnumber;
 
-        Barrier barrier = new Barrier(threadsnumber, (b) => { });
+        // Barrier с минимумом оверхеда
+        using var barrier = new Barrier(threadsnumber);
 
-        // создаем и запускаем потоки
-        Thread[] threads = new Thread[threadsnumber];
+        // Счетчик завершенных задач для Join-подобного ожидания
+        int completedCount = 0;
 
         for (int i = 0; i < threadsnumber; i++)
         {
-            int threadIndex = i;
+            int idx = i;
+            double left = a + idx * segmentLength;
+            double right = a + (idx + 1) * segmentLength;
 
-            threads[i] = new Thread(() =>
+            ThreadPool.QueueUserWorkItem(_ =>
             {
                 try
                 {
-                    double segmentLength = (b - a) / threadsnumber;
-                    double leftBorder = a + threadIndex * segmentLength;
-                    double rightBorder = a + (threadIndex + 1) * segmentLength;
+                    // Привязка к ядру (только если есть свободные ядра)
+                    if (idx < processorCount)
+                        SetThreadAffinityMask(GetCurrentThread(), (IntPtr)(1 << idx));
 
-                    double localSum = 0.0;
+                    double localSum = ComputeSegment(left, right, function ?? _defaultFunc, step);
 
-                    int stepsCount = (int)Math.Ceiling((rightBorder - leftBorder) / step);
-                    double actualStep = (rightBorder - leftBorder) / stepsCount;
-
-                    for (int j = 0; j < stepsCount; j++)
-                    {
-                        double x1 = leftBorder + j * actualStep;
-                        double x2 = leftBorder + (j + 1) * actualStep;
-
-                        double y1 = function(x1);
-                        double y2 = function(x2);
-
-                        localSum += (y1 + y2) / 2.0 * actualStep;
-                    }
-
+                    // Атомарное сложение
                     InterlockedAdd(ref totalSum, localSum);
                 }
                 finally
                 {
+                    // Сигналим барьеру о завершении
                     barrier.SignalAndWait();
+
+                    // Увеличиваем счетчик завершенных
+                    Interlocked.Increment(ref completedCount);
                 }
             });
-
-            threads[i].Start();
         }
 
-        foreach (Thread thread in threads)
+        // Ожидание с минимумом оверхеда - активное ожидание с паузой
+        while (Volatile.Read(ref completedCount) < threadsnumber)
         {
-            thread.Join();
+            Thread.Yield(); // Более легковесный, чем Thread.Sleep(0)
         }
 
         return totalSum;
+    }
+
+    [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
+    static double ComputeSegment(double a, double b, Func<double, double> function, double step)
+    {
+        int stepsCount = (int)((b - a) / step + 0.5);
+        if (stepsCount == 0) stepsCount = 1;
+
+        double actualStep = (b - a) / stepsCount;
+        double sum = 0.0;
+
+        for (int i = 0; i < stepsCount; i++)
+        {
+            double x1 = a + i * actualStep;
+            double x2 = a + (i + 1) * actualStep;
+            sum += (function(x1) + function(x2)) / 2.0 * actualStep;
+        }
+
+        return sum;
     }
 
     // вспомогательный метод атомарного сложения
