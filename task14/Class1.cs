@@ -16,11 +16,6 @@ public class DefiniteIntegral
     // threadsNumber - число потоков, которые используются для вычислений
     //
 
-    [DllImport("kernel32.dll")]
-    static extern IntPtr GetCurrentThread();
-
-    [DllImport("kernel32.dll")]
-    static extern IntPtr SetThreadAffinityMask(IntPtr hThread, IntPtr dwThreadAffinityMask);
 
     // здесь и далее убираем оптимизацию чтобы программа не пропускала вычисления
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
@@ -51,10 +46,6 @@ public class DefiniteIntegral
             {
                 try
                 {
-                    // явно прописываем переключения ядер чтобы система не перерасприделяла потоки криво
-                    if (idx < processorCount)
-                        SetThreadAffinityMask(GetCurrentThread(), (IntPtr)(1 << idx));
-
                     double localSum = ComputeSegment(left, right, function, step);
 
                     // атомарно складываем
