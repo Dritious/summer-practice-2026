@@ -1,4 +1,5 @@
 ﻿namespace task14;
+
 using System.Threading;
 
 //
