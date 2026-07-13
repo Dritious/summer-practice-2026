@@ -16,6 +16,14 @@ public class DefiniteIntegral
     // threadsNumber - число потоков, которые используются для вычислений
     //
 
+    [DllImport("kernel32.dll")]
+    static extern IntPtr GetCurrentThread();
+
+    [DllImport("kernel32.dll")]
+    static extern IntPtr SetThreadAffinityMask(IntPtr hThread, IntPtr dwThreadAffinityMask);
+
+    // здесь и далее убираем оптимизацию чтобы программа не пропускала вычисления
+    [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
     public static double Solve(double a, double b, Func<double, double> function, double step, int threadsnumber)
     {
         if (threadsnumber <= 0 || step <= 0 || a >= b)
@@ -30,43 +38,46 @@ public class DefiniteIntegral
 
         using var barrier = new Barrier(threadsnumber);
 
-        //int completedCount = 0;
-
-        Thread[] threads = new Thread[threadsnumber];
+        int completedCount = 0;
 
         for (int i = 0; i < threadsnumber; i++)
         {
-            int threadIndex = i;
+            int idx = i;
+            double left = a + idx * segmentLength;
+            double right = a + (idx + 1) * segmentLength;
 
-            threads[i] = new Thread(() =>
+            // через пул более оптимизированно
+            ThreadPool.QueueUserWorkItem(_ =>
             {
                 try
                 {
-                    double segmentLength = (b - a) / threadsnumber;
-                    double leftBorder = a + threadIndex * segmentLength;
-                    double rightBorder = a + (threadIndex + 1) * segmentLength;
+                    // явно прописываем переключения ядер чтобы система не перерасприделяла потоки криво
+                    if (idx < processorCount)
+                        SetThreadAffinityMask(GetCurrentThread(), (IntPtr)(1 << idx));
 
-                    double localSum = ComputeSegment(leftBorder, rightBorder, function, step);
+                    double localSum = ComputeSegment(left, right, function, step);
 
+                    // атомарно складываем
                     InterlockedAdd(ref totalSum, localSum);
                 }
                 finally
                 {
                     barrier.SignalAndWait();
+
+                    Interlocked.Increment(ref completedCount);
                 }
             });
-
-            threads[i].Start();
         }
 
-        foreach (Thread thread in threads)
+        while (Volatile.Read(ref completedCount) < threadsnumber)
         {
-            thread.Join();
+            Thread.Yield();
         }
 
         return totalSum;
     }
 
+    [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
     static double ComputeSegment(double a, double b, Func<double, double> function, double step)
     {
         int stepsCount = (int)((b - a) / step + 0.5);

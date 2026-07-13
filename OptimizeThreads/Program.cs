@@ -9,12 +9,13 @@ class PerformanceResearch
     static double a = -100, b = 100;
     static readonly Func<double, double> func = Math.Sin;
 
+    [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
     static void Main()
     {
         // определение оптимального шага
         double[] steps = { 1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6 };
         int stepIndex = 0;
-        int bestTime = int.MaxValue;
+        double bestTime = double.MaxValue;
 
         for (int i = 0; i < steps.Length; i++)
         {
@@ -23,8 +24,10 @@ class PerformanceResearch
             double error = Math.Abs(DefiniteIntegral.Solve(a, b, func, steps[i], 4));
 
             if (error < 1e-4 && (stepIndex == 0 || time < bestTime))
+            {
                 stepIndex = i;
-                
+                bestTime = time;
+            }
         }
 
         double optimalStep = steps[stepIndex];
@@ -35,11 +38,11 @@ class PerformanceResearch
         results[0] = MeasureTime(optimalStep, 1);
         Console.WriteLine($"{1,6} | {results[0],9:F1}");
         // для нескольких
-        for (int i=2; i<=16;i++)
-            {
-                results[i-1] = MeasureTime(optimalStep, i);
-                Console.WriteLine($"{i,6} | {results[i-1],9:F1}");
-            }
+        for (int i = 2; i <= 16; i++)
+        {
+            results[i - 1] = MeasureTime(optimalStep, i);
+            Console.WriteLine($"{i,6} | {results[i - 1],9:F1}");
+        }
 
         // результаты
         var best = results.OrderBy(x => x.Value).First();
@@ -60,6 +63,7 @@ class PerformanceResearch
         DrawChart(results, best);
     }
 
+    [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
     static double MeasureTime(double step, int threads)
     {
         var times = new List<long>();
