@@ -8,7 +8,7 @@ public class ClassAnalyzer
 
     public ClassAnalyzer(Type type)
     {
-        _type = type;
+        _type = type ?? throw new ArgumentNullException(nameof(type)); ;
     }
 
     public IEnumerable<string> GetPublicMethods()
@@ -21,7 +21,10 @@ public class ClassAnalyzer
     public IEnumerable<string> GetMethodParams(string methodName)
     {
         var method = _type.GetMethods()
-                         .First(m => m.IsPublic && m.Name == methodName);
+                         .FirstOrDefault(m => m.IsPublic && m.Name == methodName);
+
+        if (method == null)
+            return Enumerable.Empty<string>();
 
         var parameters = method.GetParameters()
                               .Select(p => p.Name);
