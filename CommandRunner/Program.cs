@@ -23,13 +23,37 @@ class Program
         var pluginsDir = Path.Combine(solutionDir, "plugins");
         var dllPath = Path.Combine(solutionDir, "plugins", "FileSystemCommands.dll");
 
+        if (!Directory.Exists(pluginsDir))
+        {
+            throw new DirectoryNotFoundException($"Plugins directory not found at: {pluginsDir}");
+        }
+
         // подгружаем все плагины(в том числе интерфейс комманды)
         foreach (var dll in Directory.GetFiles(pluginsDir, "*.dll"))
         {
-            Assembly.LoadFrom(dll);
+            try
+            {
+                Assembly.LoadFrom(dll);
+            }
+            catch (Exception ex) when (ex is FileLoadException)
+            {
+                throw new InvalidOperationException($"Failed to load plugin: {dll}", ex);
+            }
         }
 
-        return Assembly.LoadFrom(dllPath);
+        if (!File.Exists(dllPath))
+        {
+            throw new FileNotFoundException($"Plugin not found: {dllPath}");
+        }
+
+        try
+        {
+            return Assembly.LoadFrom(dllPath);
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException($"Error loading target DLL: {dllPath}", ex);
+        }
     }
 
     // взял пример из тестов
@@ -41,11 +65,13 @@ class Program
         File.WriteAllText(Path.Combine(testDir, "test2.txt"), "World");
 
         var assembly = LoadPlugins();
-        var dirSizeType = assembly.GetType("FileSystemCommands.DirectorySizeCommand");
+        var dirSizeType = assembly.GetType("FileSystemCommands.DirectorySizeCommand")
+            ?? throw new TypeLoadException("Type 'FileSystemCommands.DirectorySizeCommand' not found."); 
         dynamic dirSizeCommand = Activator.CreateInstance(dirSizeType, testDir);
         dirSizeCommand.Execute();
 
-        var findFilesType = assembly.GetType("FileSystemCommands.FindFilesCommand");
+        var findFilesType = assembly.GetType("FileSystemCommands.FindFilesCommand")
+            ?? throw new TypeLoadException("Type FileSystemCommands.FindFilesCommand' not found."); 
         dynamic findFilesCommand = Activator.CreateInstance(findFilesType, testDir, "*.txt");
         findFilesCommand.Execute();
     }
