@@ -65,13 +65,11 @@ class Program
         File.WriteAllText(Path.Combine(testDir, "test2.txt"), "World");
 
         var assembly = LoadPlugins();
-        var dirSizeType = assembly.GetType("FileSystemCommands.DirectorySizeCommand")
-            ?? throw new TypeLoadException("Type 'FileSystemCommands.DirectorySizeCommand' not found."); 
+        var dirSizeType = assembly.GetType("FileSystemCommands.DirectorySizeCommand") ?? throw new TypeLoadException("Type 'FileSystemCommands.DirectorySizeCommand' not found.");
         dynamic dirSizeCommand = Activator.CreateInstance(dirSizeType, testDir);
         dirSizeCommand.Execute();
 
-        var findFilesType = assembly.GetType("FileSystemCommands.FindFilesCommand")
-            ?? throw new TypeLoadException("Type FileSystemCommands.FindFilesCommand' not found."); 
+        var findFilesType = assembly.GetType("FileSystemCommands.FindFilesCommand") ?? throw new TypeLoadException("Type FileSystemCommands.FindFilesCommand' not found.");
         dynamic findFilesCommand = Activator.CreateInstance(findFilesType, testDir, "*.txt");
         findFilesCommand.Execute();
     }
