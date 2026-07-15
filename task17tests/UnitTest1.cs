@@ -20,7 +20,7 @@ public class ServerThreadTests
     [Fact]
     public void DefaultExceptionHandler_PrependCommandNameAndRethrows()
     {
-        var server = new ServerThread(); 
+        var server = new ServerThread();
         var command = new ThrowingCommand();
 
         // проверяем, что обработчик перевыбрасывает ошибку с нужным префиксом
