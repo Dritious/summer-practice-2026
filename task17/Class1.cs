@@ -65,12 +65,12 @@ public class ServerThread
         }
     }
 
-    internal void HardStop()
+    public void HardStop()
     {
         _behavior = null;
     }
 
-    internal void SoftStop()
+    public void SoftStop()
     {
         // закрываем очередь при остановке
         _queue.CompleteAdding();
@@ -90,7 +90,7 @@ public class ServerThread
         };
     }
 
-    internal void ExecuteCommand(ICommand cmd)
+    public void ExecuteCommand(ICommand cmd)
     {
         try
         {
