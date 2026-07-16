@@ -76,7 +76,7 @@ public class ServerThread
     private void DefaultBehavior()
     {
         // если в scheduler есть задачи продолжает работу, если нет засыпает пока нет комманд
-        int timeout = _scheduler.HasCommand() ? 0 : Timeout.Infinite; 
+        int timeout = _scheduler.HasCommand() ? 0 : Timeout.Infinite;
 
         // round robin логика
         if (_queue.TryTake(out var cmd, timeout))
