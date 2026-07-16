@@ -6,10 +6,25 @@ public interface ICommand
 {
     void Execute();
 }
+public interface IScheduler
+{
+    bool HasCommand();
+    ICommand Select();
+    void Add(ICommand cmd);
+}
+
+public class DefualtScheduler : IScheduler
+{
+    private readonly Queue<ICommand> _queue = new Queue<ICommand>();
+    public bool HasCommand() { if (_queue.Count > 0) return true; return false; }
+    public ICommand Select() { return _queue.Dequeue(); }
+    public void Add(ICommand command) { _queue.Enqueue(command); }
+}
 
 public class ServerThread
 {
     private readonly BlockingCollection<ICommand> _queue = new BlockingCollection<ICommand>();
+    private readonly IScheduler _scheduler;
     private readonly Thread _thread;
     private readonly Action<ICommand, Exception> _exceptionHandler;
 
@@ -18,7 +33,7 @@ public class ServerThread
 
     public int ManagedThreadId => _thread.ManagedThreadId;
 
-    public ServerThread(Action<ICommand, Exception>? exceptionHandler = null)
+    public ServerThread(IScheduler? scheduler = null, Action<ICommand, Exception>? exceptionHandler = null)
     {
         // добавляет имя команды в начало сообщения, и пробрасывает дальше
         _exceptionHandler = exceptionHandler ?? ((cmd, ex) =>
@@ -27,6 +42,7 @@ public class ServerThread
         });
         _behavior = DefaultBehavior;
         _thread = new Thread(Run);
+        _scheduler = scheduler ?? new DefualtScheduler();
     }
 
     public void Start() => _thread.Start();
@@ -59,9 +75,17 @@ public class ServerThread
 
     private void DefaultBehavior()
     {
-        if (_queue.TryTake(out var cmd, Timeout.Infinite))
+        // если в scheduler есть задачи продолжает работу, если нет засыпает пока нет комманд
+        int timeout = _scheduler.HasCommand() ? 0 : Timeout.Infinite; 
+
+        // round robin логика
+        if (_queue.TryTake(out var cmd, timeout))
         {
             ExecuteCommand(cmd);
+        }
+        else if (_scheduler.HasCommand())
+        {
+            ExecuteCommand(_scheduler.Select());
         }
     }
 
@@ -82,6 +106,10 @@ public class ServerThread
                 {
                     ExecuteCommand(cmd);
                 }
+            }
+            else if (_scheduler.HasCommand())
+            {
+                ExecuteCommand(_scheduler.Select());
             }
             else
             {
